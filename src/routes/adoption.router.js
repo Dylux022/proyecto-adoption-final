@@ -1,55 +1,65 @@
 import { Router } from "express";
+import adoptionService from "../services/adoption.service.js";
 
 const router = Router();
 
 router.get("/", (req, res) => {
-  res.status(200).json({
-    status: "success",
-    message: "Listado de adopciones",
-  });
+
+  const result = adoptionService.getAllAdoptions();
+
+  res.status(200).json(result);
+
 });
 
 router.get("/:id", (req, res) => {
+
   const { id } = req.params;
 
-  res.status(200).json({
-    status: "success",
-    message: `Adopción ${id}`,
-  });
+  const result = adoptionService.getAdoptionById(id);
+
+  res.status(200).json(result);
+
 });
 
 router.post("/", (req, res) => {
-  const adoption = req.body;
 
-  if (!adoption.pet || !adoption.owner) {
-    return res.status(400).json({
+  try {
+
+    const adoption = req.body;
+
+    const result = adoptionService.createAdoption(adoption);
+
+    res.status(201).json(result);
+
+  } catch (error) {
+
+    res.status(400).json({
       status: "error",
-      message: "Faltan datos",
+      message: error.message,
     });
+
   }
 
-  res.status(201).json({
-    status: "success",
-    payload: adoption,
-  });
 });
 
 router.put("/:id", (req, res) => {
+
   const { id } = req.params;
 
-  res.status(200).json({
-    status: "success",
-    message: `Adopción ${id} actualizada`,
-  });
+  const result = adoptionService.updateAdoption(id);
+
+  res.status(200).json(result);
+
 });
 
 router.delete("/:id", (req, res) => {
+
   const { id } = req.params;
 
-  res.status(200).json({
-    status: "success",
-    message: `Adopción ${id} eliminada`,
-  });
+  const result = adoptionService.deleteAdoption(id);
+
+  res.status(200).json(result);
+
 });
 
 export default router;
