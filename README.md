@@ -2,13 +2,20 @@
 
 Proyecto backend desarrollado con Node.js y Express para la entrega final del curso.
 
-## Tecnologías utilizadas
+El proyecto implementa tests funcionales completos sobre el router `adoption.router.js`, utilizando mocks y stubs con Sinon para aislar dependencias externas.
+
+Además, el proyecto fue dockerizado y publicado en DockerHub.
+
+---
+
+# Tecnologías utilizadas
 
 - Node.js
 - Express
 - Mocha
 - Chai
 - Supertest
+- Sinon
 - Docker
 
 ---
@@ -65,11 +72,15 @@ http://localhost:8080
 GET /api/adoptions
 ```
 
+---
+
 ## GET by ID
 
 ```http
 GET /api/adoptions/:id
 ```
+
+---
 
 ## POST
 
@@ -86,11 +97,15 @@ Body ejemplo:
 }
 ```
 
+---
+
 ## PUT
 
 ```http
 PUT /api/adoptions/:id
 ```
+
+---
 
 ## DELETE
 
@@ -102,7 +117,18 @@ DELETE /api/adoptions/:id
 
 # Tests funcionales
 
-Ejecutar tests:
+Los tests funcionales fueron desarrollados utilizando:
+
+- Mocha
+- Chai
+- Supertest
+- Sinon
+
+Sinon fue utilizado para crear mocks/stubs sobre el servicio de adopciones y aislar dependencias externas.
+
+---
+
+## Ejecutar tests
 
 ```bash
 npm test
@@ -113,6 +139,10 @@ Resultado esperado:
 ```txt
 6 passing
 ```
+
+---
+
+## Cobertura de tests
 
 Los tests cubren:
 
@@ -133,16 +163,26 @@ Los tests cubren:
 docker build -t proyecto-adoption-final:1.0.0 .
 ```
 
+---
+
 ## Ejecutar contenedor
 
 ```bash
 docker run -p 8080:8080 proyecto-adoption-final:1.0.0
 ```
 
+---
+
 ## Probar contenedor
 
 ```bash
 curl http://localhost:8080/api/adoptions
+```
+
+Resultado esperado:
+
+```json
+{"status":"success","message":"Listado de adopciones"}
 ```
 
 ---
@@ -191,6 +231,8 @@ proyecto-adoption-final/
 ├── src/
 │   ├── routes/
 │   │   └── adoption.router.js
+│   ├── services/
+│   │   └── adoption.service.js
 │   ├── app.js
 │   └── server.js
 │
@@ -198,9 +240,10 @@ proyecto-adoption-final/
 │   └── adoption.router.test.js
 │
 ├── Dockerfile
-├── package.json
 ├── .dockerignore
 ├── .gitignore
+├── package.json
+├── package-lock.json
 └── README.md
 ```
 
